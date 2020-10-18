@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        int input = scanner.nextInt();
+        System.out.println("Initial: " + input);
+
+        byte castInputToByte = (byte)input;
+        System.out.println("Byte: " + castInputToByte);
+
+        char castByteToChar = (char)castInputToByte;
+        System.out.println("Char: " + castByteToChar);
+
+        int castBackToInt = (int)castByteToChar;
+        System.out.println("Final: " + castBackToInt);
+
+        if(input == castBackToInt) {
+            System.out.println("The value ends up back where it started because the input fits into the range of a byte.");
+        }
+        else {
+            System.out.println("The value does not end up back where it started because the input does not fit into the range of a byte.");
+        }
+    }
+}
