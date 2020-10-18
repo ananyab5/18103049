@@ -1,0 +1,82 @@
+import java.util.*;
+
+class Main {
+
+    public static void main(String[] args)
+    {
+        int n, m;
+        Scanner scanner = new Scanner(System.in);
+        n = scanner.nextInt();
+        m = scanner.nextInt();
+        scanner.nextLine();
+        
+        String[] crops = new String[n];
+        for (int i=0;i<n;i++){
+            crops[i] = scanner.nextLine().trim();
+        }
+
+        System.out.println(replant(crops,n,m));
+    }
+    
+    public static int replant(String[] orig,int n,int m){
+// Write your code here
+// Return the number of replanted crops
+        String[] crops = new String[n];
+        if(n >= 0){
+            System.arraycopy(orig,0,crops,0,n);
+        }
+        
+        int rep1 = 0, rep2 = 0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if (isValid(crops,i,j)){
+                    crops[i] = crops[i].substring(0,j) + getNewCrop(crops,i,j,n,m) + crops[i].substring(j+1);
+                    rep1++;
+                }
+            }
+        }
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(isValid(orig,i,j) || triangle(orig,i,j,n,m)){
+                    orig[i] = orig[i].substring(0,j) + getNewCrop(orig,i,j,n,m) + orig[i].substring(j+1);
+                    rep2++;
+                }
+            }
+        }
+        
+        System.out.println(Arrays.toString(crops));
+        return (Math.min(rep1,rep2));
+    }
+
+    private static boolean triangle(String[] crops,int i,int j,int n,int m) {
+        char ch =crops[i].charAt(j);
+        char r = (j+1<m)?crops[i].charAt(j+1):'.'; //right
+        char d = (i+1<n)?crops[i+1].charAt(j):'.'; //down
+        return(ch == d && ch == r);
+    }
+    
+    private static char getNewCrop(String[] crops,int i,int j,int n,int m){
+        char l; //left
+        l=(j-1>=0) ? crops[i].charAt(j-1) : '.';
+        char r; //right
+        r = (j+1<m) ? crops[i].charAt(j+1) : '.';
+        char u; //up
+        u=(i-1>=0) ? crops[i-1].charAt(j) : '.';
+        char d; //down
+        d=(i+1<n) ? crops[i+1].charAt(j) : '.';
+        
+        for (char ch = 'a'; ch <= 'z'; ch++) {
+            if(ch != r && ch != l && ch != u && ch != d)
+                return ch;
+        }
+        return 'A';
+    }
+
+    private static boolean isValid(String[] crops,int i,int j){
+        return !(
+                (i > 0 && crops[i].charAt(j) == crops[i - 1].charAt(j))
+                        ||
+                        (j > 0 && crops[i].charAt(j) == crops[i].charAt(j - 1))
+        );
+    }
+}
