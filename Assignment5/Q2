@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class JavaApplication6 {
+public class Q2 {
    private final static int MAX = 100000;
    private volatile static int maxDivisorCount = 0;
    private volatile static int intWithMaxDivisorCount;
